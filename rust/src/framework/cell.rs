@@ -16,31 +16,27 @@ struct Cell {
 
 impl Cell {
 
-    pub fn create_cell(row: u32, column: u32, north: Option<Box<Cell>>, south: Option<Box<Cell>>,
-                       east: Option<Box<Cell>>, west: Option<Box<Cell>>) -> Cell {
+    pub fn create_cell(row: u32,
+                       column: u32,
+                       north: Option<Box<Cell>>,
+                       south: Option<Box<Cell>>,
+                       east: Option<Box<Cell>>,
+                       west: Option<Box<Cell>>) -> Cell {
         Cell {
-            row: row,
-            column: column,
-            north: north,
-            south: south,
-            east: east,
-            west: west,
+            row,
+            column,
+            north,
+            south,
+            east,
+            west,
             mark: false,
             linked_cells: HashMap::new()
         }
     }
 
-   pub fn add_link(&mut self, mut cell: &Cell) {
-       self.linked_cells.entry(cell).or_insert(true);
-       if cell.has_link(self) {
-           cell.add_link(self);
-       }
-   }
-
-   pub fn has_link(self, &cell: &Cell) -> bool {
+    pub fn has_link(self, cell: &Cell) -> bool {
        self.linked_cells.contains_key(&cell)
    }
-
 }
 
 impl Eq for Cell {}
@@ -70,14 +66,6 @@ fn should_not_be_equal() {
     let expected = Cell::create_cell(1, 1, None,None, None, None);
     let actual = Cell::create_cell(1, 2, None,None, None, None);
     assert_ne!(actual, expected);
-}
-
-#[test]
-fn should_add_link() {
-    let mut cell1 = Cell::create_cell(1, 1, None, None, None, None);
-    let cell2 = Cell::create_cell(1, 1, None, None, None, None);
-    cell1.add_link(&cell2);
-    assert_eq!(cell1.has_link(&cell2), false);
 }
 
 #[test]
