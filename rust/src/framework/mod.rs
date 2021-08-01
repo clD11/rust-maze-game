@@ -1,2 +1,2 @@
 pub mod grid;
-mod cell;
+pub mod cell;
